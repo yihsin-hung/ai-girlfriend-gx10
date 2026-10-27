@@ -17,8 +17,7 @@ for pat in "speech-to-speech --mode" "uvicorn server:app" "app.py --transport we
 done
 sleep 3
 
-# order matters: LLM first (the s2s needs it up)
-"$SCRIPT_DIR/start-llama-server.sh" || echo "warn: llama-server"
+# order matters: LLM first (the s2s needs it up); start it once, in tmux
 tmx llm   "bash $SCRIPT_DIR/start-llama-server.sh"
 tmx s2s   "bash $SCRIPT_DIR/start-s2s.sh"
 tmx front "$SCRIPT_DIR/start-frontend.sh"

@@ -54,6 +54,17 @@ fetch(){ # fetch <url> <dest>  — resumable
 
 # ---------------------------------------------------------------- main
 main(){
+  # handle --only-models (just (re)download the model files and exit)
+  if [ "$1" = "--only-models" ]; then
+    ensure_cmds
+    mkdir -p "$GF_BASE" "$MODELS"
+    [ -x "$VENV_SPEECH/bin/python" ] || mkv "$VENV_SPEECH"
+    "$VENV_SPEECH/bin/pip" install -U pip wheel huggingface_hub -q || true
+    log "==> Downloading models only"
+    "$GF_REPO/install-models.sh"
+    exit 0
+  fi
+
   ensure_cmds
   mkdir -p "$GF_BASE" "$MODELS" "$SETUP"
 
@@ -64,8 +75,13 @@ main(){
   log "==> Installing speech-to-speech deps + STT/TTS libs"
   export PIP_INDEX_URL="${PIP_INDEX_URL:-https://pypi.org/simple}"
   "$VENV_SPEECH/bin/pip" install -U pip wheel || true
-  "$VENV_SPEECH/bin/pip" install speech-to-speech faster-whisper faster-qwen3-tts funasr torch --extra-index-url https://download.pytorch.org/whl/cu128 || \
-    log "warn: torch/cu128 extra index may need aarch64 wheel; see docs"
+  "$VENV_SPEECH/bin/pip" install speech-to-speech==0.2.10 faster-whisper faster-qwen3-tts funasr || \
+    log "warn: core speech-to-speech install failed, see docs"
+  # torch + CUDA wheels. On aarch64 (GX10/GB10) use the NVIDIA-built index; fall back to PyPI.
+  if ! "$VENV_SPEECH/bin/pip" install torch --index-url https://download.pytorch.org/whl/cu128 2>/dev/null; then
+    log "warn: cu128 index failed on this arch, trying PyPI torch..."
+    "$VENV_SPEECH/bin/pip" install torch || true
+  fi
 
   log "==> Downloading models"
   "$GF_REPO/install-models.sh"

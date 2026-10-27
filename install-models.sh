@@ -27,9 +27,8 @@ PYEOF
 
 # 1) 大腦 LLM (Qwen3.6-35B-A3B uncensored, Q4_K_M) — big (~21GB)
 log "==> LLM (21GB, may take hours on slow network)"
+LLM_FILE="Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-Q4_K_M.gguf"
 if [ ! -f "$MODELS/$LLM_FILE" ]; then
-  # direct file with resume; fall back to repo-dir snapshot
-  LLM_FILE="Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-Q4_K_M.gguf"
   url="https://huggingface.co/HauhauCS/Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive/resolve/main/${LLM_FILE}"
   curl -L -C - -o "$MODELS/${LLM_FILE}.part" "$url" && mv "$MODELS/${LLM_FILE}.part" "$MODELS/${LLM_FILE}" \
     || log "warn: LLM download via direct URL failed; run again (resumes)"

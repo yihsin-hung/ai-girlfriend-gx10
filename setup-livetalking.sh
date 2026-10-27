@@ -29,8 +29,8 @@ echo "LiveTalking deps ready. Generating the 小雅 avatar (img_size=256) via th
 AVATAR_ID="${AVATAR_ID:-wav2lip256_xiaoya}"
 if command -v tmux >/dev/null 2>&1; then
   tmux kill-session -t lt 2>/dev/null || true
-  tmux new-session -d -s lt "bash $GF_BASE/../ai-girlfriend/scripts/start-lt.sh" 2>/dev/null || \
-    tmux new-session -d -s lt "bash $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/start-lt.sh"
+  REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  tmux new-session -d -s lt "bash $REPO/scripts/start-lt.sh"
   echo "waiting for LiveTalking to come up on :8010 ..."
   for i in $(seq 1 60); do
     if curl -s "http://127.0.0.1:8010/api/avatar/status" >/dev/null 2>&1; then break; fi

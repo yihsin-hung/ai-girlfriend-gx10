@@ -3,6 +3,8 @@
 在 NVIDIA **GX10 / DGX Spark（GB10，aarch64）**上、全程本地跑一個會說話、會動嘴型的 AI 女友「小雅」：**語音辨識 → 大腦 → 語音合成 → 即時口型數字人**。全部在本機，斷網也能用、不花 API 錢。
 
 > 語音完全**棓發為 `ref.wav` 的音色**（不是模型原生音），並用**繁體中文**回應。
+>
+> English version: [README.en.md](README.en.md)
 
 ---
 

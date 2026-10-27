@@ -1,0 +1,14 @@
+# large binaries / models are downloaded at setup time, not committed
+*.gguf
+*.pth
+*.part
+models/
+*.venv/
+__pycache__/
+*.pyc
+
+# local runtime artifacts
+certs/
+*.pem
++1.pem
++1-key.pem

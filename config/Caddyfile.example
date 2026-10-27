@@ -1,0 +1,13 @@
+{
+    auto_https off
+}
+https://192.168.1.153:7861 {
+    tls /home/asus/ai-gf/192.168.1.153+1.pem /home/asus/ai-gf/192.168.1.153+1-key.pem
+    handle_path /s2s/* {
+        reverse_proxy http://127.0.0.1:8765
+    }
+    handle_path /lt/* {
+        reverse_proxy http://127.0.0.1:8010
+    }
+    reverse_proxy http://127.0.0.1:7860
+}

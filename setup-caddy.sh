@@ -6,9 +6,13 @@ GF_BASE="${GF_BASE:-$HOME/ai-gf}"
 IP="${GX10_IP:-$(hostname -I 2>/dev/null | awk '{print $1}')}"
 [ -n "$IP" ] || { echo "could not detect IP; set GX10_IP=<box-ip>"; exit 1; }
 
-# mkcert (skip if already installed)
+# mkcert auto-download (linux-arm64) if not already present
 if ! command -v mkcert >/dev/null 2>&1 && [ ! -x "$GF_BASE/bin/mkcert" ]; then
-  echo "install mkcert (see README) — download the binary into $GF_BASE/bin/"
+  echo "[caddy] downloading mkcert (linux-arm64) ..."
+  mkdir -p "$GF_BASE/bin"
+  curl -L -C - -o "$GF_BASE/bin/mkcert" \
+    "https://github.com/FiloSottile/mkcert/releases/latest/download/mkcert-v1.4.4-linux-arm64" \
+    && chmod +x "$GF_BASE/bin/mkcert" || echo "[caddy] mkcert download failed; install it manually into $GF_BASE/bin/"
 fi
 MKCERT="$GF_BASE/bin/mkcert"
 export CAROOT="$GF_BASE/certs"

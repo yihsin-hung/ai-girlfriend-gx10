@@ -69,6 +69,10 @@ Opening `https://<GX10-IP>:7861` shows a page with:
   - **NOISE GATE slider**: drag **all the way left (off)** so it doesn't cut your speech.
 - **Digital human**: Xiaoya's (or your girlfriend's photo) face, moving lips in real time.
 
+![AI girlfriend UI (live screenshot)](docs/ai-girlfriend-ui.png)
+
+> The screenshot above is the actual running "Hugging Face Realtime" frontend (this project's `hf-realtime-voice`): the round voice visualizer / TAP TO START / mic on the left, and the digital human on the right.
+
 ### Full usage flow
 1. **Install the CA cert in your browser** (`~/ai-gf/certs/rootCA.pem`, add to trusted root certs) so the HTTPS page can use the mic.
 2. From a **machine with a mic**, open `https://<GX10-IP>:7861`.

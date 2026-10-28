@@ -69,6 +69,10 @@ cd ~/ai-girlfriend
   - **NOISE GATE 滑塊**：**拉到最左（關閉）**，避免把語音切斷。
 - **數字人畫面**：小雅（或你的女友照片）的臉，會隨語音即時動口型。
 
+![AI 女友介面畫面（實際運行截圖）](docs/ai-girlfriend-ui.png)
+
+> 上圖為實際運行「Hugging Face Realtime」前端（本專案的 `hf-realtime-voice`）的畫面：左側圓形為語音視覺化（TAP TO START／麥克風），右側為數字人臉。
+
 ### 完整使用流程
 1. **在瀏覽器安裝 CA 憑證**（`~/ai-gf/certs/rootCA.pem`，加入「信任的根憑證」），HTTPS 頁面才能用麥克風。
 2. 用**有麥克風的電腦**開 `https://<GX10-IP>:7861`。

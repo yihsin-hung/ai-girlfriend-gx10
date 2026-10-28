@@ -142,4 +142,22 @@ In `scripts/start-llama-server.sh` change `LLM_FILE` to e.g. `Qwen3-8B-GGUF` Q4_
 
 ## License
 
-The bundled huggingface `speech-to-speech` is Apache-2.0; the LLM/TTS/ASR models have their own licenses (see each Hugging Face page). These deployment scripts are released under MIT.
+**These deployment/setup scripts and the docs** are released under **MIT** (see `LICENSE`).
+
+### Third-party resources & license notice
+The following resources referenced by / installed from this repo are **licensed by their original authors** and are not covered by this repo's MIT license. Please respect them when sharing publicly:
+
+| Resource | Source | License |
+|---|---|---|
+| `speech-to-speech` (core voice framework) | [huggingface/speech-to-speech](https://github.com/huggingface/speech-to-speech) | Apache-2.0 |
+| `hf-realtime-voice` (frontend) | [smolagents/hf-realtime-voice (HF Space)](https://huggingface.co/spaces/smolagents/hf-realtime-voice) | see that repo |
+| `LiveTalking` (digital human) | [lipku/LiveTalking](https://github.com/lipku/LiveTalking) | see that repo |
+| **`assets/avatar-sync.js`** | "AI 赛博女友-一键部署包" tutorial | **third-party original, not ours** |
+| **`assets/ref.wav`** (voice-clone reference) | user-provided audio | may involve voice/likeness rights |
+| **`assets/idle.mp4`** (idle video) | user / deploy package | same as above |
+| LLM: `Qwen3.6-35B-A3B-Uncensored` | HF `HauhauCS/...` | see that model card |
+| TTS: `Qwen3-TTS-12Hz-1.7B-Base` | HF `Qwen/Qwen3-...` | see that model card |
+| STT: Paraformer | HF `modelscope/...` | see that model card |
+| wav2lip weights | `shibing624/ai-avatar-wav2lip` | see that model card |
+
+> If you make this repo **public**, make sure you are allowed to share `avatar-sync.js` / `ref.wav` / `idle.mp4`, or replace them with your own assets.

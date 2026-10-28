@@ -142,4 +142,26 @@ cd ~/ai-girlfriend
 
 ## 授權
 
-隨附的 huggingface `speech-to-speech` 為 Apache-2.0；LLM/TTS/ASR 模型各有其授權（見 huggingface 頁面）。本部署腳本以 MIT 釋出。
+**本部署腳本、安裝／設定腳本、`docs` 內的說明**以 **MIT** 授權放出（見 `LICENSE`）。
+
+### 第三方資源與授權聲明（公開分享請注意）
+本 repo 內 / 部署時引用的下列資源，**授權歸其原本作者**，與本 repo 的 MIT 不衝突，請於公開使用時尊重：
+
+| 資源 | 來源 | 授權 |
+|---|---|---|
+| `speech-to-speech`（核心語音框架） | [huggingface/speech-to-speech](https://github.com/huggingface/speech-to-speech) | Apache-2.0 |
+| `hf-realtime-voice`（前端） | [smolagents/hf-realtime-voice (HF Space)](https://huggingface.co/spaces/smolagents/hf-realtime-voice) | 見該 repo |
+| `LiveTalking`（數字人） | [lipku/LiveTalking](https://github.com/lipku/LiveTalking) | 見該 repo |
+| **`assets/avatar-sync.js`** | 「AI 赛博女友-一键部署包」（零度解說教學） | **第三方原創，非本 repo 原創** |
+| **`assets/ref.wav`**（小雅音色參考） | 使用者提供的聲音克隆素材 | 可能有人物音檔／肖像權考量 |
+| **`assets/idle.mp4`**（小雅待機影片） | 使用者／部署包素材 | 同上述 |
+| LLM：`Qwen3.6-35B-A3B-Uncensored` | Hugging Face `HauhauCS/...` | 見該模型頁 |
+| TTS：`Qwen3-TTS-12Hz-1.7B-Base` | Hugging Face `Qwen/Qwen3-...` | 見該模型頁 |
+| STT：Paraformer | Hugging Face `modelscope/...` | 見該模型頁 |
+| wav2lip 權重 | `shibing624/ai-avatar-wav2lip` | 見該模型頁 |
+
+> 若你要**公開**此 repo，請確認你對 `avatar-sync.js` / `ref.wav` / `idle.mp4` 有權分享，或改用你自己的素材。
+
+---
+
+

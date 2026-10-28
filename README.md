@@ -160,7 +160,13 @@ cd ~/ai-girlfriend
 | STT：Paraformer | Hugging Face `modelscope/...` | 見該模型頁 |
 | wav2lip 權重 | `shibing624/ai-avatar-wav2lip` | 見該模型頁 |
 
-> 若你要**公開**此 repo，請確認你對 `avatar-sync.js` / `ref.wav` / `idle.mp4` 有權分享，或改用你自己的素材。
+> ## ⚠️ 特別注意：公開前請審視這 3 個素材
+> 下列素材**授權歸其原始作者／你自己**，**不屬於本 repo 的 MIT**。因本 repo 為**公開**，若你不確定有權分享，建議：
+> - **`assets/avatar-sync.js`**：來自「AI 赛博女友-一键部署包」（零度解說教學）的**第三方原創**。若要公開，請向原作者確認或自行重寫。
+> - **`assets/ref.wav`**（小雅音色參考）：你的**聲音／肖像素材**。公開即代表你願意公開這段音檔，請確認無顧慮（或改用你自己的、或已授權的素材）。
+> - **`assets/idle.mp4`**（小雅待機影片）：同上，可能有肖像權/版權疑慮。
+>
+> **如何處理**：若你希望 repo 更乾淨、避免授權爭議，可以**移除這 3 個檔案**（`assets/avatar-sync.js`、`assets/ref.wav`、`assets/idle.mp4`），改成在 README 說明「請使用者自行放入自己的素材」；`setup.sh` 已設計成找不到素材時會提示。`wav2lip` 權重與模型則是下載而來，不入 repo。
 
 ---
 

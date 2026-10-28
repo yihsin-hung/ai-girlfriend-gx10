@@ -1,0 +1,10 @@
+# Default owners: the repository owner (edit or add teammates as needed)
+* @yihsin-hung
+
+# Key files
+README.md @yihsin-hung
+README.en.md @yihsin-hung
+LICENSE @yihsin-hung
+setup.sh @yihsin-hung
+install-models.sh @yihsin-hung
+patches/apply-patches.py @yihsin-hung

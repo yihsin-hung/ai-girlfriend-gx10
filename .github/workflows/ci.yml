@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+
+      - name: Bash syntax check (all shell scripts)
+        run: |
+          set -e
+          fail=0
+          for f in setup.sh install-models.sh setup-frontend.sh setup-livetalking.sh setup-caddy.sh scripts/*.sh; do
+            if bash -n "$f" 2>/dev/null; then
+              echo "OK   bash -n $f"
+            else
+              echo "FAIL bash -n $f"
+              fail=1
+            fi
+          done
+          exit $fail
+
+      - name: Shellcheck (warning+)
+        run: |
+          shellcheck -S warning setup.sh install-models.sh setup-frontend.sh setup-livetalking.sh setup-caddy.sh scripts/*.sh || \
+            echo "shellcheck found warnings (non-fatal)"
+
+      - name: Python syntax check
+        run: |
+          python -m py_compile patches/apply-patches.py
+          echo "py_compile OK"
+
+      - name: Confirm key files present
+        run: |
+          for f in README.md README.en.md LICENSE setup.sh scripts/start-all.sh patches/apply-patches.py; do
+            test -f "$f" || { echo "MISSING: $f"; exit 1; }
+          done
+          echo "key files present"

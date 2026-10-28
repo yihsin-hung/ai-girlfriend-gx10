@@ -160,4 +160,10 @@ The following resources referenced by / installed from this repo are **licensed 
 | STT: Paraformer | HF `modelscope/...` | see that model card |
 | wav2lip weights | `shibing624/ai-avatar-wav2lip` | see that model card |
 
-> If you make this repo **public**, make sure you are allowed to share `avatar-sync.js` / `ref.wav` / `idle.mp4`, or replace them with your own assets.
+> ## ⚠️ Review these 3 assets before making this repo public
+> These assets are **licensed by their original authors / you**, **not covered by this repo's MIT license**. Because this repo is **public**, if you're not sure you may share them:
+> - **`assets/avatar-sync.js`**: a **third-party original** from the "AI 赛博女友-一键部署包" tutorial. Confirm with the author or rewrite it before public use.
+> - **`assets/ref.wav`** (voice-clone reference): your **voice / likeness** asset. Publishing it means you agree to publish this audio — make sure that's fine (or use your own / licensed audio).
+> - **`assets/idle.mp4`** (avatar idle video): same — possible portrait/copyright concerns.
+>
+> **How to handle**: if you want a cleaner repo without licensing debates, **remove these 3 files** (`assets/avatar-sync.js`, `assets/ref.wav`, `assets/idle.mp4`) and instead tell users in the README to "provide their own assets"; `setup.sh` already prompts when assets are missing. The wav2lip weights and models are downloaded, not committed.

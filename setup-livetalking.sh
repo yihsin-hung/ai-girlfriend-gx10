@@ -4,7 +4,7 @@ set -euo pipefail
 GF_BASE="${GF_BASE:-$HOME/ai-gf}"
 VENV_LT="$GF_BASE/musetalk-venv"
 LT_DIR="$GF_BASE/livetalking"
-LT_REPO="${LT_REPO:-https://github.com/khanhduy1407/LiveTalking.git}"
+LT_REPO="${LT_REPO:-https://github.com/lipku/LiveTalking.git}"
 AVATAR_ID="${AVATAR_ID:-wav2lip256_xiaoya}"
 
 # clone LiveTalking if not present
@@ -20,8 +20,20 @@ fi
   torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu128 || \
   "$VENV_LT/bin/pip" install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu128 || true
 
-# wav2lip weights
-[ -f "$GF_BASE/models/wav2lip256.pth" ] || cp "$GF_REPO"/assets/wav2lip256.pth "$GF_BASE/models/" 2>/dev/null || true
+# wav2lip weights -> models/wav2lip.pth (LiveTalking expects this exact filename)
+if [ ! -f "$GF_BASE/models/wav2lip.pth" ]; then
+  echo "[lt] find wav2lip256.pth ..."
+  for src in "$HOME/AI/wav2lip256.pth" "$HOME/一键部署包/AI/wav2lip256.pth" "$REPO_ASSETS/wav2lip256.pth"; do
+    [ -f "$src" ] && cp "$src" "$GF_BASE/models/wav2lip.pth" && break
+  done
+fi
+# if we still don't have it, try the HF mirror
+if [ ! -f "$GF_BASE/models/wav2lip.pth" ]; then
+  echo "[lt] downloading wav2lip.pth from HF mirror ..."
+  curl -L -C - -o "$GF_BASE/models/wav2lip.pth.part" \
+    "https://huggingface.co/shibing624/ai-avatar-wav2lip/resolve/main/wav2lip.pth" \
+    && mv "$GF_BASE/models/wav2lip.pth.part" "$GF_BASE/models/wav2lip.pth" || true
+fi
 
 echo "LiveTalking deps ready. Generating the 小雅 avatar (img_size=256) via the LiveTalking API..."
 # Start LiveTalking briefly, then call its avatar API exactly as the working

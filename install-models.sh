@@ -43,9 +43,16 @@ HF "Qwen/Qwen3-TTS-12Hz-1.7B-Base" "$MODELS/qwen-tts/Qwen3-TTS-12Hz-1.7B-Base"
 HF "modelscope/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-pytorch" \
    "$MODELS/funasr/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-pytorch"
 
-# 4) wav2lip avatar weights (bundled in assets too) — if not present, fetch
-if [ ! -f "$MODELS/wav2lip256.pth" ]; then
-  log "download wav2lip256.pth (see docs for URL / or copy from assets)"
+# 4) wav2lip avatar weights (Wav2Lip256 model) -> models/wav2lip.pth
+#    Real source: huggingface.co/shibing624/ai-avatar-wav2lip (wav2lip.pth, 215MB)
+if [ ! -f "$MODELS/wav2lip.pth" ]; then
+  log "downloading wav2lip.pth (Wav2Lip256) ..."
+  curl -L -C - -o "$MODELS/wav2lip.pth.part" \
+    "https://huggingface.co/shibing624/ai-avatar-wav2lip/resolve/main/wav2lip.pth" \
+    && mv "$MODELS/wav2lip.pth.part" "$MODELS/wav2lip.pth" \
+    || log "warn: wav2lip download failed; recopy from your 一键部署包 (AI/wav2lip256.pth -> models/wav2lip.pth)"
+else
+  log "wav2lip.pth already present"
 fi
 
 log "All model downloads done."

@@ -20,15 +20,11 @@ SETUP="$GF_BASE/setup"
 FRONTEND="$GF_BASE/hf-realtime-voice"
 LIVETALK="$GF_BASE/livetalking/LiveTalking"
 
-# ---- model identifiers / URLs -------------------------------------
-LLAMA_REPO="ggml-org/llama.cpp"
-LLAMA_DOCKER="ghcr.io/ggml-org/llama.cpp:server-cuda"
+# ---- model identifiers (download handled by install-models.sh) ----------
 LLM_MODEL_REPO="HauhauCS/Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive"
 LLM_MODEL_FILE="Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-Q4_K_M.gguf"
-LLM_MODEL_URL="https://huggingface.co/${LLM_MODEL_REPO}/resolve/main/${LLM_MODEL_FILE}"
 TTS_MODEL="Qwen/Qwen3-TTS-12Hz-1.7B-Base"
 STT_ASR="modelscope/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-pytorch"
-WAV2LIP_PTH="https://huggingface.co/.../wav2lip256.pth"   # see docs; the bundled one lives in assets/ too
 
 log(){ printf '\n\033[1;32m[setup]\033[0m %s\n' "$*"; }
 err(){ printf '\033[1;31m[error]\033[0m %s\n' "$*"; exit 1; }
@@ -37,20 +33,6 @@ err(){ printf '\033[1;31m[error]\033[0m %s\n' "$*"; exit 1; }
 ensure_cmds(){ for c in git python3 curl wget; do command -v $c >/dev/null || err "missing: $c (install it first)"; done; }
 
 mkv(){ cd "$GF_BASE" && python3 -m venv "$1" && echo "$1 venv ready"; }
-
-# --------- download with resume + mirror fallback ------------------
-fetch(){ # fetch <url> <dest>  — resumable
-  local url="$1" dest="$2"
-  mkdir -p "$(dirname "$dest")"
-  if [ -f "$dest" ]; then
-    # allow re-download only when bigger expected (loose check); keep existing if present & nonzero
-    local sz; sz=$(stat -c%s "$dest" 2>/dev/null || echo 0)
-    if [ "$sz" -gt 0 ]; then log "already have $(basename "$dest") (${sz} bytes)"; return 0; fi
-  fi
-  log "downloading $(basename "$dest") ..."
-  ( cd "$(dirname "$dest")" && curl -L -C - -o "$dest.part" "$url" && mv "$dest.part" "$dest" ) \
-    || { err "download failed: $url  (retry with HF_ENDPOINT set to your mirror)"; }
-}
 
 # ---------------------------------------------------------------- main
 main(){
@@ -86,8 +68,10 @@ main(){
   log "==> Downloading models"
   "$GF_REPO/install-models.sh"
 
-  log "==> Setting up llama-server (docker)"
-  "$GF_REPO/scripts/start-llama-server.sh"
+  log "==> Preparing llama-server script (started later via start-all.sh)"
+  chmod +x "$GF_REPO/scripts/start-llama-server.sh" 2>/dev/null || true
+  # NOTE: services are started by ./scripts/start-all.sh AFTER setup, so a
+  # partially-downloaded model (big LLM) won't abort this install.
 
   log "==> Setting up the web frontend (hf-realtime-voice) with voice+language fixes"
   "$GF_REPO/setup-frontend.sh"
